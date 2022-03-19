@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose');  //using mongoose
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/hospital_api_db'); //connect to database
 
 const db = mongoose.connection;  //acquire the connection to check if its successful or not

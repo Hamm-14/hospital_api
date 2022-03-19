@@ -1,7 +1,11 @@
 const express = require('express');
 
-const router = express.Router();
+const router = express.Router();               //using express router
 
-router.use('/doctors',require('./doctors_api'));
+router.use('/doctors',require('./doctor'));      
+
+router.use('/patients',require('./patient'));
+
+router.use('/reports',require('./report'));
 
 module.exports = router;

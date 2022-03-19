@@ -1,4 +1,5 @@
 const Doctor = require('../../models/doctor');
+const jwt = require('jsonwebtoken');               //used to generate the token
 
 //controller for creating the doctor
 module.exports.create = function(req,res){
@@ -34,4 +35,29 @@ module.exports.create = function(req,res){
             });
         });
     });
+}
+
+//controller for doctor's sign
+module.exports.createSession = async function(req,res){
+    try{
+        let doctor = await Doctor.findOne({email: req.body.email});
+
+        if(!doctor || doctor.password != req.body.password){
+            return res.status(422).json({
+                message: 'Invalid username/password'
+            });
+        }
+
+        return res.status(200).json({
+            message: 'Signed in successful, here is your token,please keep it safe',
+            data: {
+                token: jwt.sign(doctor.toJSON(),'secret',{expiresIn: '1000000'})
+            }
+        })
+    }catch(err){
+        console.log('doctor create session error',err);
+        return res.status(500).json({
+            message: 'Internal Server Error'
+        });
+    }
 }
